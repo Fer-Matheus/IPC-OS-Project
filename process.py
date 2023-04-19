@@ -2,30 +2,56 @@ from os import *
 import os
 from threading import *
 import multiprocessing.shared_memory as sh
-from multiprocessing import Process
-from time import sleep
-import numpy
 mutex = Lock()
-def processo(i):
-    a = numpy.random.randint(1, 5)
-    sleep(a)
+def strId(id):
+    strid = str(id)
+    i = 5 - strid.__len__()
+    for a in range(i):
+        strid = '0'+strid
+    return strid
+def leituraT():
+  while(True):
     mutex.acquire()
-    print(f"processo {i} esperou {a} segundos para acessar a regiao critica")
     shm = sh.SharedMemory(name="shM", create=False)
-    shm.buf[:24] = b'Hello from child process'
-    print(bytes(shm.buf[22]).decode())
+    if(bytes(shm.buf[:1]).decode() == '\0'):
+        mutex.release()
+        continue
+    elif(int(bytes(shm.buf[:5]).decode()) == getpid()):
+        mutex.release()
+        continue
+    else:
+        i = 5
+        while(bytes(shm.buf[i:i+1]).decode() != '\0'):
+            i+=1
+        print(f"Processo {bytes(shm.buf[:5]).decode()}:{bytes(shm.buf[5:i]).decode()}\n")
+        shm.buf[:i] = b'\0'*i
+        shm.close()
+        mutex.release()
+    
+def escritaT():
+  while(True):
+    
+    msg = input("digite uma mensagem\n")
+    mutex.acquire()
+    shm = sh.SharedMemory(name="shM", create=False)
+    i = msg.__len__() + 5
+    shm.buf[:i] = bytes(strId(getpid())+msg, 'utf-8')
     shm.close()
-    mutex.release()
-    sleep(1000)
+    mutex.release()    
 if __name__ == '__main__':
-    p = Process(target=processo, name="processo")
-    shm = sh.SharedMemory(name="shM", create=True, size=4096)
-    pro = []
-    for i in range(10):
-       pro.append(Process(target=processo, name=f"processo{i}", args=[i]))
-       pro[i].start()
-    for i in range(10):
-       pro[i].join()
-    a.close()
-  
+    shm =""
+    flag = 0
+    try:
+        shm = sh.SharedMemory(name="shM", create=True, size=4096)
+        flag = 1
+    except:
+        pass
+    leitura = Thread(target=leituraT)
+    escrita = Thread(target=escritaT)
+    leitura.start()
+    escrita.start()
+    leitura.join()
+    escrita.join()
+    if(flag):
+        shm.close()
  
