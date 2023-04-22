@@ -1,0 +1,15 @@
+/home/matheus/workspace/OS-Project/ProcessB/bin/Debug/net7.0/ProcessB
+/home/matheus/workspace/OS-Project/ProcessB/bin/Debug/net7.0/ProcessB.deps.json
+/home/matheus/workspace/OS-Project/ProcessB/bin/Debug/net7.0/ProcessB.runtimeconfig.json
+/home/matheus/workspace/OS-Project/ProcessB/bin/Debug/net7.0/ProcessB.dll
+/home/matheus/workspace/OS-Project/ProcessB/bin/Debug/net7.0/ProcessB.pdb
+/home/matheus/workspace/OS-Project/ProcessB/obj/Debug/net7.0/ProcessB.csproj.AssemblyReference.cache
+/home/matheus/workspace/OS-Project/ProcessB/obj/Debug/net7.0/ProcessB.GeneratedMSBuildEditorConfig.editorconfig
+/home/matheus/workspace/OS-Project/ProcessB/obj/Debug/net7.0/ProcessB.AssemblyInfoInputs.cache
+/home/matheus/workspace/OS-Project/ProcessB/obj/Debug/net7.0/ProcessB.AssemblyInfo.cs
+/home/matheus/workspace/OS-Project/ProcessB/obj/Debug/net7.0/ProcessB.csproj.CoreCompileInputs.cache
+/home/matheus/workspace/OS-Project/ProcessB/obj/Debug/net7.0/ProcessB.dll
+/home/matheus/workspace/OS-Project/ProcessB/obj/Debug/net7.0/refint/ProcessB.dll
+/home/matheus/workspace/OS-Project/ProcessB/obj/Debug/net7.0/ProcessB.pdb
+/home/matheus/workspace/OS-Project/ProcessB/obj/Debug/net7.0/ProcessB.genruntimeconfig.cache
+/home/matheus/workspace/OS-Project/ProcessB/obj/Debug/net7.0/ref/ProcessB.dll

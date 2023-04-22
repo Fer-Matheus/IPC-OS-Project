@@ -1,0 +1,15 @@
+/home/matheus/workspace/OS-Project/ProcessA/bin/Debug/net7.0/ProcessA
+/home/matheus/workspace/OS-Project/ProcessA/bin/Debug/net7.0/ProcessA.deps.json
+/home/matheus/workspace/OS-Project/ProcessA/bin/Debug/net7.0/ProcessA.runtimeconfig.json
+/home/matheus/workspace/OS-Project/ProcessA/bin/Debug/net7.0/ProcessA.dll
+/home/matheus/workspace/OS-Project/ProcessA/bin/Debug/net7.0/ProcessA.pdb
+/home/matheus/workspace/OS-Project/ProcessA/obj/Debug/net7.0/ProcessA.csproj.AssemblyReference.cache
+/home/matheus/workspace/OS-Project/ProcessA/obj/Debug/net7.0/ProcessA.GeneratedMSBuildEditorConfig.editorconfig
+/home/matheus/workspace/OS-Project/ProcessA/obj/Debug/net7.0/ProcessA.AssemblyInfoInputs.cache
+/home/matheus/workspace/OS-Project/ProcessA/obj/Debug/net7.0/ProcessA.AssemblyInfo.cs
+/home/matheus/workspace/OS-Project/ProcessA/obj/Debug/net7.0/ProcessA.csproj.CoreCompileInputs.cache
+/home/matheus/workspace/OS-Project/ProcessA/obj/Debug/net7.0/ProcessA.dll
+/home/matheus/workspace/OS-Project/ProcessA/obj/Debug/net7.0/refint/ProcessA.dll
+/home/matheus/workspace/OS-Project/ProcessA/obj/Debug/net7.0/ProcessA.pdb
+/home/matheus/workspace/OS-Project/ProcessA/obj/Debug/net7.0/ProcessA.genruntimeconfig.cache
+/home/matheus/workspace/OS-Project/ProcessA/obj/Debug/net7.0/ref/ProcessA.dll
