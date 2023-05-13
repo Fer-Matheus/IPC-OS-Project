@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "u4WPY9zggUHKLDwGr4y+SZg7AJ2FbarGS2HRwWz7LzyVfnZlWKB6515LNZw78VsXijIroXvWK7detcOZYRfbNg==",
+  "dgSpecHash": "jgtoDni3nnfVkV5L97DBqgIfoZoJ8wcC9bAlcoRFgsBydLFVAEC0u+QKaqYapjngpECyR6LSKNpiM4B13R7ppQ==",
   "success": true,
-  "projectFilePath": "/home/matheus/workspace/OS-Project/ProcessA/ProcessA.csproj",
+  "projectFilePath": "C:\\workspace\\OS-Project\\ProcessA\\ProcessA.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
