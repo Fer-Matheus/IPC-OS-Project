@@ -23,23 +23,39 @@ public static class Message
                         {
                             StreamReader reader = new(stream);
                             var received = reader.ReadLine();
-                            if (received != null)
+                            if (received == "3")
+                            {
+                                using (var shmFile = MemoryMappedFile.OpenExisting("File"))
+                                {
+                                    using (var streamFile = shmFile.CreateViewStream())
+                                    {
+                                        StreamReader readerFile = new(streamFile);
+                                        var file = readerFile.ReadToEnd();
+                                        Console.WriteLine(file);
+                                    }
+                                    shmFile.Dispose();
+                                }
+                            }
+                            else if (received != null)
                             {
                                 Console.WriteLine($"Message received: {received}");
                             }
                         }
                         using (var stream = shm.CreateViewStream())
                         {
-                            Console.WriteLine("Enter a message to processA:\n (enter 0 to exit)");
+                            Console.WriteLine("Enter a message to processA:\n (0 - exit\t3 - Seend File)");
                             var message = Console.ReadLine();
                             if (message == "0") break;
+                            else if (message == "3")
+                            {
+                                WriteFile();
+                            }
                             var writer = new StreamWriter(stream);
                             writer.WriteLine(message);
                             writer.Flush();
                             mutex.ReleaseMutex();
                         }
                     }
-                    Thread.Sleep(2000);
                 }
                 mutex.Dispose();
                 shm.Dispose();
@@ -50,42 +66,34 @@ public static class Message
             Console.WriteLine("The connection have been closed.");
         }
     }
-    public static void TextMessageLinux()
+
+    private static void WriteFile()
     {
-        string path = "/home/matheus/workspace/OS-Project/TEMP/";
-        using (var file = new FileStream(path + "SharedMemory", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite))
-        using (var shm = MemoryMappedFile.CreateFromFile(file, null, 2048, MemoryMappedFileAccess.ReadWrite, HandleInheritability.None, true))
+
+        try
         {
-            while (true)
+            Mutex mutex = new(false, "MutexFile");
+            if (mutex.WaitOne())
             {
-                if (OwnerMutex.WaitOne(path + "Mutex"))
+                Console.WriteLine("Enter the file path:");
+                var path = Console.ReadLine();
+                var file = new FileStream(path, FileMode.Open);
+                while (true)
                 {
-                    using (var stream = shm.CreateViewStream())
+                    using (var shm = MemoryMappedFile.CreateOrOpen("File", file.Length))
                     {
-                        StreamReader reader = new(stream);
-                        var received = reader.ReadLine();
-                        if (received != null)
+                        using (var stream = shm.CreateViewStream())
                         {
-                            Console.WriteLine($"Message received: {received}");
+                            file.CopyTo(stream);
+                            mutex.ReleaseMutex();
                         }
                     }
-                    using (var stream = shm.CreateViewStream())
-                    {
-                        Console.WriteLine("Enter a message to processA:\n (enter 0 to exit)");
-                        var message = Console.ReadLine();
-                        if (message == "0") break;
-                        var writer = new StreamWriter(stream);
-                        writer.WriteLine(message);
-                        writer.Flush();
-                        OwnerMutex.Release(path + "Mutex");
-                    }
                 }
-                Thread.Sleep(2000);
             }
-            shm.Dispose();
-            file.Dispose();
-            File.Delete(path + "Mutex");
-            File.Delete(path + "SharedMemory");
+        }
+        catch (System.Exception)
+        {
+
         }
     }
 }
