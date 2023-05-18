@@ -141,6 +141,11 @@ _TeamCity*
 # DotCover is a Code Coverage Tool
 *.dotCover
 
+# My folders
+ProcessA/bin/*
+ProcessA/obj/*
+ProcessB/bin/*
+ProcessB/obj/*
 # AxoCover is a Code Coverage Tool
 .axoCover/*
 !.axoCover/settings.json

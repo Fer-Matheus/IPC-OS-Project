@@ -11,7 +11,8 @@ def Choise(op):
     if op == 1:
         RunProcess('.\ProcessA')
         RunProcess('.\ProcessB')
-
+    elif op == 2:
+        pass
 
 RunProcess('.\ProcessA')
 RunProcess('.\ProcessB')

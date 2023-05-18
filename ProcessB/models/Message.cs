@@ -25,18 +25,10 @@ public static class Message
                             var received = reader.ReadLine();
                             if (received == "3")
                             {
-                                using (var shmFile = MemoryMappedFile.OpenExisting("File"))
-                                {
-                                    using (var streamFile = shmFile.CreateViewStream())
-                                    {
-                                        StreamReader readerFile = new(streamFile);
-                                        var file = readerFile.ReadToEnd();
-                                        Console.WriteLine(file);
-                                    }
-                                    shmFile.Dispose();
-                                }
+                                var name = reader.ReadLine();
+                                ReadFile(name);
                             }
-                            else if (received != null)
+                            else if (received != "\0" || received != "\n")
                             {
                                 Console.WriteLine($"Message received: {received}");
                             }
@@ -44,14 +36,17 @@ public static class Message
                         using (var stream = shm.CreateViewStream())
                         {
                             Console.WriteLine("Enter a message to processA:\n (0 - exit\t3 - Seend File)");
+                            String name = "";
+                            var writer = new StreamWriter(stream);
                             var message = Console.ReadLine();
                             if (message == "0") break;
                             else if (message == "3")
                             {
-                                WriteFile();
+                                name = WriteFile();
+                                writer.WriteLine(message);
+                                writer.WriteLine(name);
                             }
-                            var writer = new StreamWriter(stream);
-                            writer.WriteLine(message);
+                            else { writer.WriteLine(message); }
                             writer.Flush();
                             mutex.ReleaseMutex();
                         }
@@ -61,39 +56,51 @@ public static class Message
                 shm.Dispose();
             }
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
+            Console.WriteLine($"Error : {e.Message}");
             Console.WriteLine("The connection have been closed.");
+            Console.ReadLine();
         }
     }
 
-    private static void WriteFile()
+    private static void ReadFile(string name)
     {
+        Console.WriteLine("File received!");
+        using (var shmFile = MemoryMappedFile.OpenExisting("File"))
+        {
+            using (var streamFile = shmFile.CreateViewStream())
+            {
+                StreamReader reader = new(streamFile);
+                System.Console.WriteLine($"File name: {name}");
+                var buffer = new MemoryStream();
+                streamFile.CopyTo(buffer);
+                File.WriteAllBytes($"ProcessB/file/{name}", buffer.ToArray());
+            }
+            shmFile.Dispose();
+        }
+    }
 
+    private static String WriteFile()
+    {
         try
         {
-            Mutex mutex = new(false, "MutexFile");
-            if (mutex.WaitOne())
+            Console.WriteLine("Enter the file path:");
+            var path = Console.ReadLine();
+            var file = File.Open(path, FileMode.Open);
+            var shm = MemoryMappedFile.CreateNew("File", file.Length * 2);
+            using (var stream = shm.CreateViewStream())
             {
-                Console.WriteLine("Enter the file path:");
-                var path = Console.ReadLine();
-                var file = new FileStream(path, FileMode.Open);
-                while (true)
-                {
-                    using (var shm = MemoryMappedFile.CreateOrOpen("File", file.Length))
-                    {
-                        using (var stream = shm.CreateViewStream())
-                        {
-                            file.CopyTo(stream);
-                            mutex.ReleaseMutex();
-                        }
-                    }
-                }
+                file.CopyTo(stream);
             }
+            return file.Name.Split("\\")[file.Name.Split("\\").Length - 1];
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
-
+            Console.WriteLine($"Error : {e.Message}");
+            Console.WriteLine("The connection have been closed.");
+            Console.ReadLine();
         }
+        return null;
     }
 }
