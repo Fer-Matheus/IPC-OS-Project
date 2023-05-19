@@ -1,9 +1,6 @@
 from os import *
-import os
 from threading import *
 import multiprocessing.shared_memory as sh
-from multiprocessing import Value, freeze_support, set_start_method
-from time import sleep
 mutex = Lock()
 
 def strId(id):

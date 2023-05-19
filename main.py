@@ -9,9 +9,9 @@ def strId(id):
     for a in range(i):
         strid = '0'+strid
     return strid
-def openNewTerminal():
-    console = ['cmd.exe', '/c', 'start'] # or something
-    cmd = ['python', 'process.py']
+def openNewTerminal(name):
+    console = ['cmd.exe', '/c', 'start'] 
+    cmd = ['python', name]
     return subprocess.Popen(console + cmd)
 def transmissao(n, id):
     global mutex
@@ -19,12 +19,10 @@ def transmissao(n, id):
         sleep(0.1)
         mutex.acquire()
         shm = sh.SharedMemory(name="shM", create=False)
-        if(bytes(shm.buf[n:n+1]).decode() == '\0' or bytes(shm.buf[id:id+1]).decode() == '1'):
+        if(bytes(shm.buf[id:id+1]).decode() == '\0' or bytes(shm.buf[id:id+1]).decode() == '1'):
             if(bytes(shm.buf[0:n]).decode() == '1'*n):
                 i = n
-                while(bytes(shm.buf[i:i+1]).decode() != '\0'):
-                    i+=1
-                shm.buf[:i] = b'\0'*i
+                shm.buf[:shm.size] = b'\0'*shm.size
                 print("Mensagem expirada")
             shm.close()
             mutex.release()
@@ -38,11 +36,13 @@ def transmissao(n, id):
             shm.close()
             mutex.release()
 def senderProcess(n):
+    global mutex
     while(True):
         msg = input("mensagem: \n")
         mutex.acquire()
         shm = sh.SharedMemory(name="shM", create=False)
         i = msg.__len__() + n
+        shm.buf[0:n] = bytes('0'*n, 'utf-8')
         shm.buf[n:i] = bytes(msg, 'utf-8')
         shm.close()
         mutex.release() 
@@ -51,8 +51,8 @@ if __name__ == '__main__':
     opcao = int(input("Digite:\n1 - P2P\n2 - PnP\n3 - Envio de arquivos\n"))
     if(opcao == 1):
         shm = sh.SharedMemory(name="shM", create=True, size=4096)
-        openNewTerminal()
-        openNewTerminal()
+        openNewTerminal('process.py')
+        openNewTerminal('process.py')
     elif(opcao == 2):
         shm = sh.SharedMemory(name="shM", create=True, size=4096)
         n = int(input("Quantos processos devem ser abertos?\n"))
@@ -66,4 +66,8 @@ if __name__ == '__main__':
         sender.join()
         for i in range(n):
             processes[i].join()
+    elif(opcao == 3):
+        shm = sh.SharedMemory(name="shM", create=True, size=4096)
+        openNewTerminal('processFile.py')
+        openNewTerminal('processFile.py')
     shm.close()
