@@ -4,7 +4,7 @@ using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProcessA;
+namespace ProcessB;
 
 public static class Message
 {
@@ -35,7 +35,7 @@ public static class Message
                         }
                         using (var stream = shm.CreateViewStream())
                         {
-                            Console.WriteLine("Enter a message to processB:\n (0 - exit\t3 - Seend File)");
+                            Console.WriteLine("Enter a message to processA:\n (0 - exit\t3 - Seend File)");
                             String name = "";
                             var writer = new StreamWriter(stream);
                             var message = Console.ReadLine();
@@ -75,7 +75,7 @@ public static class Message
                 System.Console.WriteLine($"File name: {name}");
                 var buffer = new MemoryStream();
                 streamFile.CopyTo(buffer);
-                File.WriteAllBytes($"ProcessA/file/{name}", buffer.ToArray());
+                File.WriteAllBytes($"P2P/ProcessB/file/{name}", buffer.ToArray());
             }
             shmFile.Dispose();
         }
@@ -85,9 +85,9 @@ public static class Message
     {
         try
         {
-            Console.WriteLine("Enter the file path:");
+            Console.WriteLine("Enter the file name:");
             var path = Console.ReadLine();
-            var file = File.Open(path, FileMode.Open);
+            var file = File.Open("P2P/ProcessB/" + path, FileMode.Open);
             var shm = MemoryMappedFile.CreateNew("File", file.Length * 2);
             using (var stream = shm.CreateViewStream())
             {
@@ -97,10 +97,7 @@ public static class Message
         }
         catch (System.Exception e)
         {
-            Console.WriteLine($"Error : {e.Message}");
-            Console.WriteLine("The connection have been closed.");
-            Console.ReadLine();
+            throw e;
         }
-        return null;
     }
 }
