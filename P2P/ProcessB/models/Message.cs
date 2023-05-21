@@ -60,7 +60,7 @@ public static class Message
         {
             Console.WriteLine($"Error : {e.Message}");
             Console.WriteLine("The connection have been closed.");
-            Console.ReadLine();
+            Thread.Sleep(2000);
         }
     }
 
@@ -87,7 +87,7 @@ public static class Message
         {
             Console.WriteLine("Enter the file name:");
             var path = Console.ReadLine();
-            var file = File.Open("P2P/ProcessB/" + path, FileMode.Open);
+            var file = File.Open("P2P/ProcessB/file/" + path, FileMode.Open);
             var shm = MemoryMappedFile.CreateNew("File", file.Length * 2);
             using (var stream = shm.CreateViewStream())
             {
