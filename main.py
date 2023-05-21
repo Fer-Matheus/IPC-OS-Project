@@ -1,4 +1,5 @@
 import subprocess
+from time import sleep
 
 
 def RunProcess(folder):
@@ -12,7 +13,12 @@ def Choise(op):
         RunProcess('.\P2P\ProcessA')
         RunProcess('.\P2P\ProcessB')
     elif op == 2:
-        pass
+        n = int(input("How many process do you want to shared?\n"))
+        RunProcess('.\P-N\Sender')
+        for i in range(n):
+            sleep(2)
+            RunProcess('.\P-N\Receiver')
 
-RunProcess('.\P2P\ProcessA')
-RunProcess('.\P2P\ProcessB')
+
+op = int(input("Enter your choice:\n1 - P2P\t2 - P-N\n"))
+Choise(op)
