@@ -20,5 +20,5 @@ def Choise(op):
             RunProcess('.\P-N\Receiver')
 
 
-op = int(input("Enter your choice:\n1 - P2P\t2 - P-N\n"))
+op = int(input("Enter your choice:\n1 - P2P\t2 - P-N\n\n"))
 Choise(op)
