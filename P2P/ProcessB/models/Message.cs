@@ -35,7 +35,7 @@ public static class Message
                         }
                         using (var stream = shm.CreateViewStream())
                         {
-                            Console.WriteLine("Enter a message to processA:\n (0 - exit\t3 - Seend File)");
+                            Console.WriteLine("Enter a message to processA:\n (0 - exit\t3 - Send File)");
                             String name = "";
                             var writer = new StreamWriter(stream);
                             var message = Console.ReadLine();
@@ -93,7 +93,15 @@ public static class Message
             {
                 file.CopyTo(stream);
             }
-            return file.Name.Split("\\")[file.Name.Split("\\").Length - 1];
+            var name = file.Name.Split("\\")[file.Name.Split("\\").Length - 1];
+            Console.WriteLine("Do you wanna delete it?\n(Yes or No)");
+            var response = Console.ReadLine().ToLower();
+            file.Close();
+            if (response == "yes")
+            {
+                File.Delete("P2P/ProcessB/file/" + path);
+            }
+            return name;
         }
         catch (System.Exception e)
         {
