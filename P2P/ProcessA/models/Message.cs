@@ -47,10 +47,12 @@ public static class Message
                         // Essa view é a responsável por escrever tanto a mensagem como o possivel arquivo
                         using (var stream = shm.CreateViewStream())
                         {
+
                             // É dada ao usuário a opção de escolher o tipo de envio file
                             Console.WriteLine("Enter a message to processB:\n (0 - exit\t3 - Send File)");
 
                             // A variavél que receberá o nome do eventual file é iniciado
+
                             String name = "";
 
                             // Aqui atribuimos as funcionalidade de escrita à view, a fim de facilitar a conversão para bytes
@@ -130,10 +132,12 @@ public static class Message
             Console.WriteLine("Enter the file name:");
             var path = Console.ReadLine();
 
+
             // Nesse ponto, o arquivo escolhido para ser enviado é carregado para uma variável do tipo FileStream que trata o arquivo para bytes
             var file = File.Open("P2P/ProcessA/file/" + path, FileMode.Open);
 
             // Nesse ponto é criada uma shared memory exclusiva para o envio de arquivos
+
             var shm = MemoryMappedFile.CreateNew("File", file.Length);
             using (var stream = shm.CreateViewStream())
             {
@@ -142,6 +146,7 @@ public static class Message
             }
             // Nesse ponto pegamos apenas o nome do arquivo enviado, para que sejá informado na shared memory principal
             return file.Name.Split("\\")[file.Name.Split("\\").Length - 1];
+
         }
         catch (System.Exception e)
         {

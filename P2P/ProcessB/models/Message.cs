@@ -88,6 +88,7 @@ public static class Message
             {
                 file.CopyTo(stream);
             }
+            
             return file.Name.Split("\\")[file.Name.Split("\\").Length - 1];
         }
         catch (System.Exception e)
