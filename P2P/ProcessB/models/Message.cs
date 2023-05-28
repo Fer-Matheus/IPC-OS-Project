@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.IO.MemoryMappedFiles;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProcessB;
 
@@ -14,6 +10,7 @@ public static class Message
         {
             using (var shm = MemoryMappedFile.CreateOrOpen("_SharedMemory", 2048))
             {
+
                 Mutex mutex = new(false, "Mutex");
                 while (true)
                 {
@@ -28,10 +25,9 @@ public static class Message
                                 var name = reader.ReadLine();
                                 ReadFile(name);
                             }
-                            else if (received != "\0" || received != "\n")
-                            {
-                                Console.WriteLine($"Message received: {received}");
-                            }
+
+                            Console.WriteLine($"Message received: {received}");
+
                         }
                         using (var stream = shm.CreateViewStream())
                         {
@@ -56,9 +52,8 @@ public static class Message
                 shm.Dispose();
             }
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
-            Console.WriteLine($"Error : {e.Message}");
             Console.WriteLine("The connection have been closed.");
             Thread.Sleep(2000);
         }
@@ -88,7 +83,7 @@ public static class Message
             Console.WriteLine("Enter the file name:");
             var path = Console.ReadLine();
             var file = File.Open("P2P/ProcessB/file/" + path, FileMode.Open);
-            var shm = MemoryMappedFile.CreateNew("File", file.Length * 2);
+            var shm = MemoryMappedFile.CreateNew("File", file.Length);
             using (var stream = shm.CreateViewStream())
             {
                 file.CopyTo(stream);
