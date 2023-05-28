@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics;
 using ProcessB;
 
-var id = Process.GetCurrentProcess().Id;
-
 Thread reader = new Thread(Message.ReadMessage);
 reader.Start();
 
