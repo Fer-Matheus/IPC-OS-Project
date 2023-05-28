@@ -94,6 +94,7 @@ public static class Message
         catch (System.Exception)
         {
             // Em caso de erros, a conexão será fechada
+
             Console.WriteLine("The connection have been closed.");
             Thread.Sleep(4000);
         }
@@ -134,18 +135,20 @@ public static class Message
 
 
             // Nesse ponto, o arquivo escolhido para ser enviado é carregado para uma variável do tipo FileStream que trata o arquivo para bytes
-            var file = File.Open("P2P/ProcessA/file/" + path, FileMode.Open);
+            var file = File.Open($"P2P/ProcessA/file/{path}", FileMode.OpenOrCreate);
 
             // Nesse ponto é criada uma shared memory exclusiva para o envio de arquivos
 
-            var shm = MemoryMappedFile.CreateNew("File", file.Length);
+            var shm = MemoryMappedFile.CreateOrOpen("File", file.Length);
             using (var stream = shm.CreateViewStream())
             {
                 // Usando uma view para acessar a shared memory, usamos a instância do arquivo para copiar os bytes para a shared memomy
                 file.CopyTo(stream);
             }
             // Nesse ponto pegamos apenas o nome do arquivo enviado, para que sejá informado na shared memory principal
-            return file.Name.Split("\\")[file.Name.Split("\\").Length - 1];
+            string name = file.Name.Split("\\")[file.Name.Split("\\").Length - 1];
+            file.Close();
+            return name;
 
         }
         catch (System.Exception e)
