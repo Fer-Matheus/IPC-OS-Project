@@ -36,7 +36,7 @@ def menu():
     # Inserimos os inputs, labels e botões de ação em um layout
     layout = [  [sg.Radio("P2P", "group1", False)],
             [sg.Radio("PnP", "group1", False)],
-            [sg.OK(), sg.Cancel()]]
+            [sg.OK(), sg.Cancel("Sair")]]
     # Inicialização da janela da GUI, sendo inserido o layout e o título
     window = sg.Window('Escolha uma opção', layout)
 
