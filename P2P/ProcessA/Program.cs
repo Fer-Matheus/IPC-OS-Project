@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using ProcessA;
 
+Console.Clear();
+
  /*OBS:
         Todos os comentários contidos aqui se aplicam de forma analoga ao arquivo do ProcessB
     */

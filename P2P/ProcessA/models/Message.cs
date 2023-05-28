@@ -47,7 +47,7 @@ public static class Message
                         // Acionamento do fluxo de envio do file via shared memory
                         else if (message == "3")
                         {
-                            // A leitura da shared memory é definida na seção 3. Código do trabalho escrito.
+                            // A leitura da shared memory é definida na seção 3.1 - Estruturação do trabalho escrito.
                             name = WriteFile();
                             if (mutex.WaitOne())
                             {

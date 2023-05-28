@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using ProcessB;
 
+Console.Clear();
+
 Thread reader = new Thread(Message.ReadMessage);
 reader.Start();
 

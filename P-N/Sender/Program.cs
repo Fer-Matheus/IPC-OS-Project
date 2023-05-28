@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO.MemoryMappedFiles;
-
+Console.Clear();
 // Temos a criação inicial da shared memory para que os demais n processos de leitura possam acessa-lá e se registrarem antes do envio das mensagens
 MemoryMappedFile shm = MemoryMappedFile.CreateOrOpen("Message", 1024);
 

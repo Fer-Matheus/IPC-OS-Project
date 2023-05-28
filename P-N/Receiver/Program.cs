@@ -1,11 +1,13 @@
 ﻿using System.IO.MemoryMappedFiles;
 
+Console.Clear();
+
 // Definimos para cada processo as seguintes variáveis que serviram de controle das informações contidas na shared memory
 
 // idProcess é iniciado como negativo para que seja identificado seu ainda não registro, bem como o senderID será usado para armazenar o id do emissor da mensagem
 int idProcess = -1, senderID;
 
-// stringControl será usada como registro dos processos que acessam a shared memory, e a message é a mensagem contidaa na shared memory 
+// stringControl será usada como registro dos processos que acessam a shared memory, e a message é a mensagem contida na shared memory 
 string stringControl = "", message;
 
 // O mutex será usado para coordenar o acesso a região crítica
