@@ -1,4 +1,4 @@
-# OS Project.
+# IPC-OS Project.
 ### Starting the first work of the Operating Systems discipline.
 \
 Team:
